@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+      target: development
+    command: pnpm run start:dev api
+    ports:
+      - '5790:5790'
+    volumes:
+      - .:/usr/src/app
+
+  postgres:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: booked
+
+  redis:
+    image: redis:6.2-alpine
+    command: ['redis-server', '--save']
+    ports:
+      - 6379:6379
