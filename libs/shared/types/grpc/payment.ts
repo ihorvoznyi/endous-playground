@@ -23,8 +23,6 @@ export interface CreateChargeMessage {}
 
 export interface CreateChargeResponse {}
 
-export const PAYMENT_PACKAGE_NAME = 'payment';
-
 export interface PaymentServiceClient {
   createCustomer(
     request: CreateCustomerMessage,
@@ -78,4 +76,5 @@ export function PaymentServiceControllerMethods() {
   };
 }
 
-export const PAYMENT_SERVICE_NAME = 'PaymentService';
+export const PAYMENT_PACKAGE = 'payment';
+export const PAYMENT_SERVICE = 'PaymentService';

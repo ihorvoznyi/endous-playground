@@ -5,4 +5,7 @@ export default () => ({
   grpc: {
     payment: process.env.PAYMENT_GRPC_URI,
   },
+  stripe: {
+    sk: process.env.STRIPE_SECRET_KEY,
+  },
 });

@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { StripeService } from './stripe.service';
 
 @Module({
-  providers: [],
-  exports: [],
+  providers: [StripeService],
+  exports: [StripeService],
 })
 export class StripeModule {}

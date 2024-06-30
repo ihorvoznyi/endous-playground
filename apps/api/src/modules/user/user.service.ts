@@ -5,6 +5,7 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 
@@ -39,6 +40,47 @@ export class UserService {
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException();
+    }
+  }
+
+  public async getById(id: string) {
+    try {
+      const user = await this.userRepo.findOneBy({ id });
+      return user;
+    } catch (error) {
+      this.logger.error(`Failed to find user with id ${id}`, error);
+      throw new InternalServerErrorException(
+        `Failed to find user with id ${id}`,
+      );
+    }
+  }
+
+  public async getByEmail(email: string) {
+    try {
+      const user = await this.userRepo.findOneBy({ email });
+      return user;
+    } catch (error) {
+      this.logger.error(`Failed to find user with email ${email}`, error);
+      throw new InternalServerErrorException(
+        `Failed to find user with email ${email}`,
+      );
+    }
+  }
+
+  public async attachCustomerId(id: string, customerId: string) {
+    const user = await this.getById(id);
+    if (!user) {
+      throw new NotFoundException(
+        `[FAILED ATTACH CUSTOMER ID] User with id ${id} does not exist`,
+      );
+    }
+
+    try {
+      user.customerId = customerId;
+      return await this.userRepo.save(user);
+    } catch (error) {
+      this.logger.error('FAILED ATTACH CUSTOMER ID', error);
+      throw new InternalServerErrorException('FAILED TO ATTACH CUSTOMER ID');
     }
   }
 }
