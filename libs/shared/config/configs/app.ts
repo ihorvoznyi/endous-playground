@@ -8,4 +8,8 @@ export default () => ({
   stripe: {
     sk: process.env.STRIPE_SECRET_KEY,
   },
+  session: {
+    name: process.env.SESSION_NAME,
+    secret: process.env.SESSION_SECRET,
+  },
 });
